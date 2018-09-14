@@ -73,16 +73,18 @@ class Application {
 
     _parseCommandLine(argv) {
         var open = false;
-        if (process.platform == 'win32' && argv.length > 1) {
-            argv.slice(1).forEach((arg) => {
-                if (!arg.startsWith('-')) {
-                    var extension = arg.split('.').pop();
-                    if (extension != '' && extension != 'js' && fs.existsSync(arg) && fs.statSync(arg).isFile()) {
-                        this._openFile(arg);
-                        open = true;
+        if (process.platform == 'win32' || process.platform == 'linux') {
+            if (argv.length > 1) {
+                argv.slice(1).forEach((arg) => {
+                    if (!arg.startsWith('-')) {
+                        var extension = arg.split('.').pop();
+                        if (extension != '' && extension != 'js' && fs.existsSync(arg) && fs.statSync(arg).isFile()) {
+                            this._openFile(arg);
+                            open = true;
+                        }
                     }
-                }
-            });
+                });
+            }
         }
         return open;
     }
